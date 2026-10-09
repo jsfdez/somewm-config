@@ -406,7 +406,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             awful.button({ }, 5, function() awful.client.focus.byidx( 1) end),
         },
         layout = {
-            spacing = dpi(4),
+            spacing = 0,
             layout  = wibox.layout.fixed.horizontal,
         },
         widget_template = {
@@ -414,16 +414,17 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 {
                     { id = "icon_role", widget = awful.widget.clienticon },
                     id     = "icon_margin_role",
-                    left   = dpi(6),
+                    left   = dpi(3),
                     right  = dpi(2),
-                    top    = dpi(4),
-                    bottom = dpi(4),
+                    top    = dpi(2),
+                    bottom = dpi(2),
                     widget = wibox.container.margin,
                 },
                 {
                     { id = "text_role", widget = wibox.widget.textbox },
                     id     = "text_margin_role",
-                    right  = dpi(6),
+                    left   = dpi(2),
+                    right  = dpi(4),
                     widget = wibox.container.margin,
                 },
                 layout = wibox.layout.fixed.horizontal,
