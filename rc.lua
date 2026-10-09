@@ -142,6 +142,10 @@ local brightness = require("brightness")
 -- Battery status
 local battery = require("battery")
 
+-- Suspend
+local suspend_module = require("suspend")
+suspend = suspend_module.system  -- Expose globally for Lua prompt
+
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
 local terminal = "kitty"
