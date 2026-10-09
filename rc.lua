@@ -115,8 +115,8 @@ end
 -- Lockscreen (must be after beautiful.init)
 require("lockscreen").init()
 
--- Quake terminal
-require("quake")
+-- Quake terminal (disabled - not hiding properly on Wayland)
+-- require("quake")
 
 -- Display management
 local display = require("display")
