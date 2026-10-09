@@ -417,20 +417,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
             spacing = 0,
             layout  = wibox.layout.flex.horizontal,  -- Use flex to expand to fill space
         },
-        widget_template = {
-            {
-                awful.widget.clienticon,
-                {
-                    id     = "text_role",
-                    align  = "left",  -- Left-align window titles
-                    widget = wibox.widget.textbox,
-                },
-                layout = wibox.layout.flex.horizontal,
-                fill_space = true,
-            },
-            id     = "background_role",
-            widget = wibox.container.background,
-        },
     }
 
     s.mywibox = awful.wibar {
