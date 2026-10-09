@@ -445,14 +445,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     layout = wibox.layout.fixed.horizontal,
                     wibox.widget.systray(),
                     s.mylayoutbox,
+                    mytextclock,
                 },
             },
-            -- Clock temporarily removed
-            -- {
-            --     mytextclock,
-            --     halign = "center",
-            --     widget = wibox.container.place,
-            -- },
         }
     }
 end)
