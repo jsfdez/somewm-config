@@ -126,7 +126,7 @@ display.load_config()              -- Load saved display settings
 
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
-local terminal = "cosmic-term"
+local terminal = "kitty"
 local editor = os.getenv("EDITOR") or "nano"
 local editor_cmd = terminal .. " -e " .. editor
 local modkey = "Mod4"
