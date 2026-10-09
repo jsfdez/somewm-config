@@ -7,18 +7,27 @@ local quake = {
     screen = nil,
     height = 0.5,
     toggled = false,
+    client = nil,
 }
 
 function quake.toggle()
     local s = awful.screen.focused()
     local name = "QuakeTerminal"
 
-    -- Check if quake already exists
-    local quake_client = nil
-    for _, c in ipairs(client.get(s)) do
-        if c.name == name then
-            quake_client = c
-            break
+    -- Check if quake already exists (by name or stored reference)
+    local quake_client = quake.client
+    if quake_client and not quake_client.valid then
+        quake.client = nil
+        quake_client = nil
+    end
+
+    -- If no stored reference, search by window name
+    if not quake_client then
+        for _, c in ipairs(client.get(s)) do
+            if c.name:find("QuakeTerminal") or c.name:find("cosmic-term") then
+                quake_client = c
+                break
+            end
         end
     end
 
@@ -47,6 +56,7 @@ function quake.toggle()
             ontop = true,
             sticky = false,
             callback = function(c)
+                quake.client = c  -- Store reference
                 c:geometry({
                     x = 0,
                     y = 0,
