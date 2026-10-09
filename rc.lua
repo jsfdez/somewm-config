@@ -118,6 +118,9 @@ require("lockscreen").init()
 -- Quake terminal
 require("quake")
 
+-- Display management
+local display = require("display")
+
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
 local terminal = "cosmic-term"
@@ -154,7 +157,9 @@ gears.timer({
 
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
-awful.spawn.once("wlr-randr --output eDP-1 --mode 2880x1800@60.000999Hz --scale 1.25")  -- 125% scale, 60Hz for battery
+gears.timer.delayed_call(function()
+    display.set_refresh(60)  -- 125% scale, 60Hz for battery
+end)
 -- awful.spawn.once("nm-applet")        -- network tray
 -- awful.spawn.once("blueman-applet")   -- bluetooth tray
 -- awful.spawn.once("udiskie --tray")   -- auto-mount removable drives
