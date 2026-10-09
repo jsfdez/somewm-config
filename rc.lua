@@ -85,6 +85,10 @@ beautiful.init(gears.filesystem.get_themes_dir() .. theme_name .. "/theme.lua")
 beautiful.tasklist_plain_task_name = false
 beautiful.tasklist_font = "Noto Sans Regular 13"
 
+-- Remove gaps between windows to use all screen space
+beautiful.useless_gap = 0
+beautiful.border_width = 0
+
 -- Setup the menu/launcher with an "s" instead of AwesomeWM's "a".
 -- Same blocky style as beautiful.theme_assets.gen_awesome_name (the "s" letter
 -- is letter 3 in the "awesome" wordmark): a square filled with `fg`, with two
