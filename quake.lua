@@ -66,7 +66,7 @@ end
 awful.keyboard.append_global_keybindings({
     awful.key {
         modifiers   = { modkey },
-        key         = "`",
+        key         = "masculine",
         on_press    = quake.toggle,
         description = "toggle quake terminal",
         group       = "launcher",
