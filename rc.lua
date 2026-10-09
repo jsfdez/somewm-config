@@ -411,7 +411,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         },
         layout = {
             spacing = 0,
-            layout  = wibox.layout.fixed.horizontal,
+            layout  = wibox.layout.flex.horizontal,  -- Use flex to expand to fill space
         },
         widget_template = {
             {
