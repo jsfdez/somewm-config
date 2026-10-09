@@ -81,18 +81,6 @@ end
 
 beautiful.init(gears.filesystem.get_themes_dir() .. theme_name .. "/theme.lua")
 
--- Configure DPI scaling to 150% (1.5x)
-local dpi_scale = 1.5
-beautiful.dpi = math.floor((beautiful.dpi or 96) * dpi_scale)
-
--- Scale fonts by DPI
-if beautiful.font then
-    local font_name, font_size = beautiful.font:match("^(.+)%s+(%d+)$")
-    if font_name and font_size then
-        beautiful.font = font_name .. " " .. math.floor(tonumber(font_size) * dpi_scale)
-    end
-end
-
 -- Setup the menu/launcher with an "s" instead of AwesomeWM's "a".
 -- Same blocky style as beautiful.theme_assets.gen_awesome_name (the "s" letter
 -- is letter 3 in the "awesome" wordmark): a square filled with `fg`, with two
@@ -129,7 +117,7 @@ require("lockscreen").init()
 
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
-local terminal = "foot"
+local terminal = "cosmic-term"
 local editor = os.getenv("EDITOR") or "nano"
 local editor_cmd = terminal .. " -e " .. editor
 local modkey = "Mod4"
@@ -148,10 +136,12 @@ awful.input.xkb_options = "caps:escape"
 -- awful.input.natural_scrolling = 1
 -- awful.input.pointer_speed     = 0.5
 
--- Per-monitor fractional scaling.
--- output.connect_signal("added", function(o)
---     if o.name == "HDMI-A-1" then o.scale = 1.5 end
--- end)
+-- Per-monitor fractional scaling (apply after startup)
+gears.timer.delayed_call(function()
+    for _, o in ipairs(output.get()) do
+        o.scale = 1.2
+    end
+end)
 
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
