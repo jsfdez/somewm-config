@@ -45,6 +45,24 @@ function display.cycle_refresh()
     display.set_refresh(next_hz)
 end
 
+function display.set_scale(percentage)
+    -- Convert percentage (100, 125, 150, etc) to decimal (1.0, 1.25, 1.5, etc)
+    local scale = percentage / 100
+
+    local cmd = string.format(
+        "wlr-randr --output %s --mode %dx%d@%s --scale %.2f",
+        display.output, display.width, display.height, display.current_hz, scale
+    )
+    awful.spawn(cmd)
+    display.scale = scale
+    naughty = require("naughty")
+    naughty.notification {
+        title = "Display",
+        text = "Scale set to: " .. percentage .. "%",
+        timeout = 2,
+    }
+end
+
 -- Register keybinding to cycle refresh rates
 local modkey = "Mod4"
 awful.keyboard.append_global_keybindings({

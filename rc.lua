@@ -120,7 +120,8 @@ require("quake")
 
 -- Display management
 local display = require("display")
-set_refresh = display.set_refresh  -- Expose globally for Lua prompt
+set_refresh = display.set_refresh  -- Expose globally for Lua prompt (60, 120, etc)
+set_scale = display.set_scale      -- Expose globally for Lua prompt (100, 125, 150, etc)
 
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
