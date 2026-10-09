@@ -160,6 +160,7 @@ gears.timer({
 
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
+awful.spawn.once("cosmic-bg")  -- Background service
 gears.timer.delayed_call(function()
     -- Apply display settings from config (or defaults: 125% scale, 60Hz)
     local hz_map = { ["60.000999Hz"] = 60, ["120.000000Hz"] = 120 }
