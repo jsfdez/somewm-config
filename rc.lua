@@ -153,6 +153,7 @@ suspend = suspend_module.system  -- Expose globally for Lua prompt
 -- Shutdown
 local shutdown_module = require("shutdown")
 shutdown = shutdown_module.system  -- Expose globally for Lua prompt
+poweroff = shutdown_module.poweroff  -- Alias for consistency with systemctl
 
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
