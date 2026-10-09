@@ -1075,11 +1075,11 @@ ruled.client.connect_signal("request::rules", function()
         properties = { tag = "media", switchtotag = false, focus = false },
     }
 
-    -- Titlebars on normal clients and dialogs
+    -- Titlebars disabled - use taskbar instead
     ruled.client.append_rule {
         id         = "titlebars",
         rule_any   = { type = { "normal", "dialog" } },
-        properties = { titlebars_enabled = true }
+        properties = { titlebars_enabled = false }
     }
 end)
 
