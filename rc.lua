@@ -115,6 +115,9 @@ end
 -- Lockscreen (must be after beautiful.init)
 require("lockscreen").init()
 
+-- Quake terminal
+require("quake")
+
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
 local terminal = "cosmic-term"
@@ -136,12 +139,18 @@ awful.input.xkb_options = "caps:escape"
 -- awful.input.natural_scrolling = 1
 -- awful.input.pointer_speed     = 0.5
 
--- Per-monitor fractional scaling (apply after startup)
-gears.timer.delayed_call(function()
-    for _, o in ipairs(output.get()) do
-        o.scale = 1.2
+-- Per-monitor fractional scaling (apply after full compositor init)
+gears.timer({
+    timeout = 2,
+    autostart = true,
+    callback = function()
+        for _, o in ipairs(output.get()) do
+            if o and o.valid then
+                o.scale = 1.2
+            end
+        end
     end
-end)
+})
 
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
@@ -530,6 +539,13 @@ awful.keyboard.append_global_keybindings({
         key         = "r",
         on_press    = function() awful.screen.focused().mypromptbox:run() end,
         description = "run prompt",
+        group       = "launcher",
+    },
+    awful.key {
+        modifiers   = { modkey },
+        key         = ".",
+        on_press    = function() awful.spawn("rofi -show drun") end,
+        description = "rofi application launcher",
         group       = "launcher",
     },
     awful.key {
