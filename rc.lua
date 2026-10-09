@@ -81,6 +81,9 @@ end
 
 beautiful.init(gears.filesystem.get_themes_dir() .. theme_name .. "/theme.lua")
 
+-- Show window titles in taskbar
+beautiful.tasklist_plain_task_name = false
+
 -- Setup the menu/launcher with an "s" instead of AwesomeWM's "a".
 -- Same blocky style as beautiful.theme_assets.gen_awesome_name (the "s" letter
 -- is letter 3 in the "awesome" wordmark): a square filled with `fg`, with two
