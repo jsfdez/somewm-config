@@ -165,6 +165,9 @@ gears.timer({
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
 awful.spawn.once("cosmic-bg")  -- Background service
+awful.spawn.once("nm-applet")        -- network tray
+awful.spawn.once("blueman-applet")   -- bluetooth tray
+-- awful.spawn.once("udiskie --tray")   -- auto-mount removable drives
 gears.timer.delayed_call(function()
     -- Apply display settings from config (or defaults: 125% scale, 60Hz) silently on startup
     local hz_map = { ["60.000999Hz"] = 60, ["120.000000Hz"] = 120 }
@@ -173,9 +176,6 @@ gears.timer.delayed_call(function()
     display.set_refresh(hz_num, true)   -- silent=true
     display.set_scale(scale_pct, true)  -- silent=true
 end)
--- awful.spawn.once("nm-applet")        -- network tray
--- awful.spawn.once("blueman-applet")   -- bluetooth tray
--- awful.spawn.once("udiskie --tray")   -- auto-mount removable drives
 
 -- Auto-lock after N seconds of idle.
 -- awesome.set_idle_timeout("auto-lock", 600, function() awesome.lock() end)
