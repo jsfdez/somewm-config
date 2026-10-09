@@ -83,7 +83,10 @@ beautiful.init(gears.filesystem.get_themes_dir() .. theme_name .. "/theme.lua")
 
 -- Show window titles in taskbar with larger font
 beautiful.tasklist_plain_task_name = false
-beautiful.tasklist_font = "Noto Sans Regular 13"
+beautiful.tasklist_font = "Noto Sans Regular 14"
+
+-- Make tag names bigger
+beautiful.taglist_font = "Noto Sans Bold 14"
 
 -- Remove gaps between windows to use all screen space
 beautiful.useless_gap = 0
@@ -329,7 +332,7 @@ local mytextclock = wibox.widget {
             format = "%a %b %d  %H:%M",
             widget = wibox.widget.textclock,
         },
-        left   = dpi(8),
+        left   = dpi(10),
         right  = dpi(8),
         widget = wibox.container.margin,
     },
@@ -370,7 +373,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             c:tags(tags)
         end
     else
-        awful.tag({ "dev", "web", "chat", "files", "media" }, s, awful.layout.layouts[1])
+        awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, awful.layout.layouts[1])
     end
 
     s.mypromptbox = awful.widget.prompt()
