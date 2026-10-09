@@ -421,8 +421,13 @@ screen.connect_signal("request::desktop_decoration", function(s)
             {
                 awful.widget.clienticon,
                 {
-                    id     = "text_role",
-                    widget = wibox.widget.textbox,
+                    {
+                        id     = "text_role",
+                        widget = wibox.widget.textbox,
+                    },
+                    valign = "center",
+                    halign = "left",  -- Left-align window titles
+                    widget = wibox.container.place,
                 },
                 layout = wibox.layout.flex.horizontal,
             },
