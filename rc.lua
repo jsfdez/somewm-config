@@ -139,6 +139,9 @@ display.load_config()              -- Load saved display settings
 local audio = require("audio")
 local brightness = require("brightness")
 
+-- Battery status
+local battery = require("battery")
+
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
 local terminal = "kitty"
@@ -445,6 +448,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     wibox.widget.systray(),
                     audio.widget,
                     brightness.widget,
+                    battery.widget,
                     s.mylayoutbox,
                     mytextclock,
                 },
