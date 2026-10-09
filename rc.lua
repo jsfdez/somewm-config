@@ -122,6 +122,7 @@ require("quake")
 local display = require("display")
 set_refresh = display.set_refresh  -- Expose globally for Lua prompt (60, 120, etc)
 set_scale = display.set_scale      -- Expose globally for Lua prompt (100, 125, 150, etc)
+display.load_config()              -- Load saved display settings
 
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
@@ -160,7 +161,12 @@ gears.timer({
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
 gears.timer.delayed_call(function()
-    display.set_refresh(60)  -- 125% scale, 60Hz for battery
+    -- Apply display settings from config (or defaults: 125% scale, 60Hz)
+    local hz_map = { ["60.000999Hz"] = 60, ["120.000000Hz"] = 120 }
+    local hz_num = hz_map[display.current_hz] or 60
+    local scale_pct = math.floor(display.scale * 100)
+    display.set_refresh(hz_num)
+    display.set_scale(scale_pct)
 end)
 -- awful.spawn.once("nm-applet")        -- network tray
 -- awful.spawn.once("blueman-applet")   -- bluetooth tray

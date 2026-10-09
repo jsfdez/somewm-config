@@ -1,5 +1,6 @@
 -- Display/monitor management
 local awful = require("awful")
+local gears = require("gears")
 
 local display = {
     output = "eDP-1",
@@ -11,7 +12,35 @@ local display = {
         { name = "120Hz", value = "120.000000Hz" },
     },
     current_hz = "60.000999Hz",
+    config_path = gears.filesystem.get_configuration_dir() .. "somewm_display.json",
 }
+
+function display.load_config()
+    local f = io.open(display.config_path, "r")
+    if f then
+        local content = f:read("*a")
+        f:close()
+        local ok, config = pcall(function() return load("return " .. content)() end)
+        if ok and config then
+            if config.scale then display.scale = config.scale end
+            if config.current_hz then display.current_hz = config.current_hz end
+        end
+    end
+end
+
+function display.save_config()
+    local config = {
+        scale = display.scale,
+        current_hz = display.current_hz,
+    }
+    local f = io.open(display.config_path, "w")
+    if f then
+        local content = gears.string.xml_escape(string.format("{ scale = %.2f, current_hz = '%s' }", config.scale, config.current_hz))
+        -- Write as Lua-readable format
+        f:write(string.format("{ scale = %.2f, current_hz = '%s' }", config.scale, config.current_hz))
+        f:close()
+    end
+end
 
 function display.set_refresh(hz_number)
     -- Map number to full Hz value
@@ -27,6 +56,7 @@ function display.set_refresh(hz_number)
     )
     awful.spawn(cmd)
     display.current_hz = hz
+    display.save_config()
     naughty = require("naughty")
     naughty.notification {
         title = "Display",
@@ -55,6 +85,7 @@ function display.set_scale(percentage)
     )
     awful.spawn(cmd)
     display.scale = scale
+    display.save_config()
     naughty = require("naughty")
     naughty.notification {
         title = "Display",
