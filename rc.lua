@@ -144,9 +144,9 @@ gears.timer({
     timeout = 2,
     autostart = true,
     callback = function()
-        for _, o in ipairs(output.get()) do
-            if o and o.valid then
-                o.scale = 1.2
+        for _, s in ipairs(screen) do
+            if s.output then
+                s.output.scale = 1.2
             end
         end
     end
@@ -154,6 +154,7 @@ gears.timer({
 
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
+awful.spawn.once("wlr-randr --output eDP-1 --custom-mode 2880x1800 60 --scale 1.25")  -- 125% scale, 60Hz for battery
 -- awful.spawn.once("nm-applet")        -- network tray
 -- awful.spawn.once("blueman-applet")   -- bluetooth tray
 -- awful.spawn.once("udiskie --tray")   -- auto-mount removable drives
