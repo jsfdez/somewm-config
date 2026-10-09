@@ -414,23 +414,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
         },
         widget_template = {
             {
+                awful.widget.clienticon,
                 {
-                    { id = "icon_role", widget = awful.widget.clienticon },
-                    id     = "icon_margin_role",
-                    left   = 0,
-                    right  = 0,
-                    top    = 0,
-                    bottom = 0,
-                    widget = wibox.container.margin,
+                    id     = "text_role",
+                    widget = wibox.widget.textbox,
                 },
-                {
-                    { id = "text_role", widget = wibox.widget.textbox },
-                    id     = "text_margin_role",
-                    left   = 0,
-                    right  = 0,
-                    widget = wibox.container.margin,
-                },
-                layout = wibox.layout.fixed.horizontal,
+                layout = wibox.layout.flex.horizontal,
             },
             id     = "background_role",
             widget = wibox.container.background,
