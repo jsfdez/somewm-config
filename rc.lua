@@ -88,6 +88,10 @@ beautiful.tasklist_font = "Noto Sans Regular 14"
 -- Make tag names bigger
 beautiful.taglist_font = "Noto Sans Bold 14"
 
+-- Make menu items bigger
+beautiful.menu_font = "Noto Sans Regular 14"
+beautiful.menu_height = 32
+
 -- Remove gaps between windows to use all screen space
 beautiful.useless_gap = 0
 beautiful.border_width = dpi(1)  -- 1px border to show selected window
