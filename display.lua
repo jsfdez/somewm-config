@@ -20,10 +20,24 @@ function display.load_config()
     if f then
         local content = f:read("*a")
         f:close()
-        local ok, config = pcall(function() return load("return " .. content)() end)
+        -- Parse Lua table format
+        local ok, config = pcall(function()
+            return load("return " .. content)()
+        end)
         if ok and config then
-            if config.scale then display.scale = config.scale end
-            if config.current_hz then display.current_hz = config.current_hz end
+            if config.scale and type(config.scale) == "number" then
+                display.scale = config.scale
+            end
+            if config.current_hz and type(config.current_hz) == "string" then
+                display.current_hz = config.current_hz
+            end
+        else
+            naughty = require("naughty")
+            naughty.notification {
+                title = "Display Config Error",
+                text = "Failed to load display config: " .. tostring(config),
+                timeout = 3,
+            }
         end
     end
 end
