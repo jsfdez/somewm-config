@@ -173,8 +173,7 @@ gears.timer({
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
 awful.spawn.once("cosmic-bg")  -- Background service
--- Network and Bluetooth applets disabled - use awful.spawn.once if needed
--- awful.spawn.once("nm-applet")        -- network tray
+awful.spawn.once("nm-applet")        -- network tray
 -- awful.spawn.once("blueman-applet")   -- bluetooth tray
 -- awful.spawn.once("udiskie --tray")   -- auto-mount removable drives
 gears.timer.delayed_call(function()
