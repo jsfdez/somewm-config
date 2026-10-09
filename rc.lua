@@ -166,12 +166,12 @@ gears.timer({
 -- wallpapers natively, so don't run mako/swaybg/dunst.
 awful.spawn.once("cosmic-bg")  -- Background service
 gears.timer.delayed_call(function()
-    -- Apply display settings from config (or defaults: 125% scale, 60Hz)
+    -- Apply display settings from config (or defaults: 125% scale, 60Hz) silently on startup
     local hz_map = { ["60.000999Hz"] = 60, ["120.000000Hz"] = 120 }
     local hz_num = hz_map[display.current_hz] or 60
     local scale_pct = math.floor(display.scale * 100)
-    display.set_refresh(hz_num)
-    display.set_scale(scale_pct)
+    display.set_refresh(hz_num, true)   -- silent=true
+    display.set_scale(scale_pct, true)  -- silent=true
 end)
 -- awful.spawn.once("nm-applet")        -- network tray
 -- awful.spawn.once("blueman-applet")   -- bluetooth tray

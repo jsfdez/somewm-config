@@ -56,7 +56,7 @@ function display.save_config()
     end
 end
 
-function display.set_refresh(hz_number)
+function display.set_refresh(hz_number, silent)
     -- Map number to full Hz value
     local hz_map = {
         [60] = "60.000999Hz",
@@ -71,12 +71,14 @@ function display.set_refresh(hz_number)
     awful.spawn(cmd)
     display.current_hz = hz
     display.save_config()
-    naughty = require("naughty")
-    naughty.notification {
-        title = "Display",
-        text = "Refresh rate set to: " .. hz,
-        timeout = 2,
-    }
+    if not silent then
+        naughty = require("naughty")
+        naughty.notification {
+            title = "Display",
+            text = "Refresh rate set to: " .. hz,
+            timeout = 2,
+        }
+    end
 end
 
 function display.cycle_refresh()
@@ -89,7 +91,7 @@ function display.cycle_refresh()
     display.set_refresh(next_hz)
 end
 
-function display.set_scale(percentage)
+function display.set_scale(percentage, silent)
     -- Convert percentage (100, 125, 150, etc) to decimal (1.0, 1.25, 1.5, etc)
     local scale = percentage / 100
 
@@ -100,12 +102,14 @@ function display.set_scale(percentage)
     awful.spawn(cmd)
     display.scale = scale
     display.save_config()
-    naughty = require("naughty")
-    naughty.notification {
-        title = "Display",
-        text = "Scale set to: " .. percentage .. "%",
-        timeout = 2,
-    }
+    if not silent then
+        naughty = require("naughty")
+        naughty.notification {
+            title = "Display",
+            text = "Scale set to: " .. percentage .. "%",
+            timeout = 2,
+        }
+    end
 end
 
 -- Register keybinding to cycle refresh rates
