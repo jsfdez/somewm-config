@@ -3,7 +3,7 @@ local awful = require("awful")
 local modkey = "Mod4"
 
 local quake = {
-    terminal = "cosmic-term",
+    terminal = "kitty",
     screen = nil,
     height = 0.5,
     toggled = false,
@@ -22,10 +22,11 @@ function quake.toggle()
         quake_client = nil
     end
 
-    -- If no stored reference, search by window name
+    -- If no stored reference, search by window name or class
     if not quake_client then
         for _, c in ipairs(client.get(s)) do
-            if c.name:find("QuakeTerminal") or c.name:find("cosmic-term") then
+            if (c.name and c.name:find("QuakeTerminal")) or
+               (c.class and c.class:find("quake")) then
                 quake_client = c
                 break
             end
@@ -58,7 +59,7 @@ function quake.toggle()
         end
     else
         -- Create new quake terminal
-        awful.spawn(quake.terminal .. " --title=" .. name, {
+        awful.spawn(quake.terminal .. " --class=quake --title=" .. name, {
             floating = true,
             ontop = true,
             sticky = false,
