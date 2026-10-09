@@ -8,6 +8,7 @@ local quake = {
     height = 0.5,
     toggled = false,
     client = nil,
+    visible = false,
 }
 
 function quake.toggle()
@@ -33,9 +34,17 @@ function quake.toggle()
 
     if quake_client then
         -- Toggle existing quake terminal
-        if quake_client.hidden or not quake_client.visible then
-            quake_client.hidden = false
-            quake_client.minimized = false
+        if quake.visible then
+            -- Hide: move off-screen
+            quake_client:geometry({
+                x = -9999,
+                y = -9999,
+                width = 1,
+                height = 1
+            })
+            quake.visible = false
+        else
+            -- Show: move to top of screen
             quake_client:geometry({
                 x = 0,
                 y = 0,
@@ -45,9 +54,7 @@ function quake.toggle()
             quake_client.ontop = true
             quake_client:raise()
             client.focus = quake_client
-        else
-            quake_client.hidden = true
-            quake_client.minimized = true
+            quake.visible = true
         end
     else
         -- Create new quake terminal
@@ -57,13 +64,13 @@ function quake.toggle()
             sticky = false,
             callback = function(c)
                 quake.client = c  -- Store reference
+                quake.visible = true
                 c:geometry({
                     x = 0,
                     y = 0,
                     width = s.geometry.width,
                     height = math.floor(s.geometry.height * quake.height)
                 })
-                c.hidden = false
                 c.ontop = true
                 c:raise()
                 client.focus = c
