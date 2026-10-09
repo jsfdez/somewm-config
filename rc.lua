@@ -87,7 +87,7 @@ beautiful.tasklist_font = "Noto Sans Regular 13"
 
 -- Remove gaps between windows to use all screen space
 beautiful.useless_gap = 0
-beautiful.border_width = 0
+beautiful.border_width = dpi(1)  -- 1px border to show selected window
 
 -- Setup the menu/launcher with an "s" instead of AwesomeWM's "a".
 -- Same blocky style as beautiful.theme_assets.gen_awesome_name (the "s" letter
