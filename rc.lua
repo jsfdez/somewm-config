@@ -132,6 +132,10 @@ set_refresh = display.set_refresh  -- Expose globally for Lua prompt (60, 120, e
 set_scale = display.set_scale      -- Expose globally for Lua prompt (100, 125, 150, etc)
 display.load_config()              -- Load saved display settings
 
+-- Audio and brightness controls
+local audio = require("audio")
+local brightness = require("brightness")
+
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
 local terminal = "kitty"
@@ -437,6 +441,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 {
                     layout = wibox.layout.fixed.horizontal,
                     wibox.widget.systray(),
+                    audio.widget,
+                    brightness.widget,
                     s.mylayoutbox,
                     mytextclock,
                 },
@@ -473,7 +479,13 @@ awful.keyboard.append_global_keybindings({
     awful.key {
         modifiers   = { modkey, "Control" },
         key         = "r",
-        on_press    = awesome.restart,
+        on_press    = function()
+            naughty.notification {
+                title = "Restarting...",
+                timeout = 1,
+            }
+            gears.timer.delayed_call(awesome.restart)
+        end,
         description = "reload somewm",
         group       = "somewm",
     },
@@ -680,55 +692,6 @@ awful.keyboard.append_global_keybindings({
 })
 
 -- audio (requires wpctl from wireplumber)
-awful.keyboard.append_global_keybindings({
-    awful.key {
-        modifiers   = {},
-        key         = "XF86AudioRaiseVolume",
-        on_press    = function() awful.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+") end,
-        description = "raise volume",
-        group       = "audio",
-    },
-    awful.key {
-        modifiers   = {},
-        key         = "XF86AudioLowerVolume",
-        on_press    = function() awful.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") end,
-        description = "lower volume",
-        group       = "audio",
-    },
-    awful.key {
-        modifiers   = {},
-        key         = "XF86AudioMute",
-        on_press    = function() awful.spawn("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") end,
-        description = "mute output",
-        group       = "audio",
-    },
-    awful.key {
-        modifiers   = {},
-        key         = "XF86AudioMicMute",
-        on_press    = function() awful.spawn("wpctl set-mute @DEFAULT_SOURCE@ toggle") end,
-        description = "mute microphone",
-        group       = "audio",
-    },
-})
-
--- brightness (requires brightnessctl)
-awful.keyboard.append_global_keybindings({
-    awful.key {
-        modifiers   = {},
-        key         = "XF86MonBrightnessUp",
-        on_press    = function() awful.spawn("brightnessctl set 5%+") end,
-        description = "raise brightness",
-        group       = "brightness",
-    },
-    awful.key {
-        modifiers   = {},
-        key         = "XF86MonBrightnessDown",
-        on_press    = function() awful.spawn("brightnessctl set 5%-") end,
-        description = "lower brightness",
-        group       = "brightness",
-    },
-})
-
 -- screenshot (requires grim, slurp)
 awful.keyboard.append_global_keybindings({
     awful.key {
@@ -909,6 +872,45 @@ awful.keyboard.append_global_keybindings({
                 t.layout = t.layouts[index] or t.layout
             end
         end,
+    },
+})
+
+-- Audio and brightness controls
+awful.keyboard.append_global_keybindings({
+    awful.key {
+        modifiers   = {},
+        key         = "XF86MonBrightnessUp",
+        on_press    = brightness.increase,
+        description = "increase brightness",
+        group       = "brightness",
+    },
+    awful.key {
+        modifiers   = {},
+        key         = "XF86MonBrightnessDown",
+        on_press    = brightness.decrease,
+        description = "decrease brightness",
+        group       = "brightness",
+    },
+    awful.key {
+        modifiers   = {},
+        key         = "XF86AudioRaiseVolume",
+        on_press    = audio.increase,
+        description = "raise volume",
+        group       = "audio",
+    },
+    awful.key {
+        modifiers   = {},
+        key         = "XF86AudioLowerVolume",
+        on_press    = audio.decrease,
+        description = "lower volume",
+        group       = "audio",
+    },
+    awful.key {
+        modifiers   = {},
+        key         = "XF86AudioMute",
+        on_press    = audio.toggle_mute,
+        description = "toggle mute",
+        group       = "audio",
     },
 })
 
