@@ -81,8 +81,9 @@ end
 
 beautiful.init(gears.filesystem.get_themes_dir() .. theme_name .. "/theme.lua")
 
--- Show window titles in taskbar
+-- Show window titles in taskbar with larger font
 beautiful.tasklist_plain_task_name = false
+beautiful.tasklist_font = "Noto Sans Regular 13"
 
 -- Setup the menu/launcher with an "s" instead of AwesomeWM's "a".
 -- Same blocky style as beautiful.theme_assets.gen_awesome_name (the "s" letter
@@ -438,9 +439,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     mylauncher,
                     s.mytaglist,
                     s.mypromptbox,
-                    s.mytasklist,
                 },
-                { widget = wibox.container.background },
+                s.mytasklist,  -- Tasklist takes center space and expands
                 {
                     layout = wibox.layout.fixed.horizontal,
                     wibox.widget.systray(),
