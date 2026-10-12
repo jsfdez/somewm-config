@@ -81,6 +81,13 @@ end
 
 beautiful.init(gears.filesystem.get_themes_dir() .. theme_name .. "/theme.lua")
 
+-- Customize taglist appearance - bigger indicators
+local theme_assets = require("beautiful.theme_assets")
+local taglist_square_size = dpi(8)
+beautiful.taglist_squares_sel   = theme_assets.taglist_squares_sel(taglist_square_size, beautiful.fg_normal)
+beautiful.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, beautiful.fg_normal)
+beautiful.taglist_spacing = dpi(10)
+
 -- Show window titles in taskbar with larger font
 beautiful.tasklist_plain_task_name = false
 beautiful.tasklist_font = "Noto Sans Regular 14"
@@ -441,18 +448,16 @@ screen.connect_signal("request::desktop_decoration", function(s)
         },
         style = {
             font = "sans " .. dpi(10),
+            shape_border_width_focus = dpi(1),
         },
-        spacing = dpi(6),
         widget_template = {
             {
                 {
                     id     = "text_role",
                     widget = wibox.widget.textbox,
                 },
-                left   = dpi(10),
-                right  = dpi(10),
-                top    = dpi(6),
-                bottom = dpi(6),
+                left   = dpi(8),
+                right  = dpi(8),
                 widget = wibox.container.margin,
             },
             id     = "background_role",
