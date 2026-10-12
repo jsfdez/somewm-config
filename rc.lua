@@ -404,6 +404,22 @@ screen.connect_signal("request::desktop_decoration", function(s)
         }
     }
 
+    local function get_tag_label(t)
+        local clients = t:clients()
+        if #clients == 0 then
+            return "(Empty)"
+        elseif #clients == 1 then
+            local c = clients[1]
+            local title = c.name or "Unknown"
+            if #title > 20 then
+                title = title:sub(1, 17) .. "..."
+            end
+            return title
+        else
+            return #clients .. " windows"
+        end
+    end
+
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
@@ -422,7 +438,80 @@ screen.connect_signal("request::desktop_decoration", function(s)
                                         end),
             awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
             awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end),
-        }
+        },
+        style = {
+            font = "sans " .. dpi(10),
+        },
+        spacing = dpi(6),
+        widget_template = {
+            {
+                {
+                    id     = "text_role",
+                    widget = wibox.widget.textbox,
+                },
+                left   = dpi(10),
+                right  = dpi(10),
+                top    = dpi(6),
+                bottom = dpi(6),
+                widget = wibox.container.margin,
+            },
+            id     = "background_role",
+            widget = wibox.container.background,
+        },
+    }
+
+    -- Update tag names dynamically based on client count
+    local function update_tag_name(t)
+        local clients = t:clients()
+        local label
+        if #clients == 0 then
+            label = "---"
+        elseif #clients == 1 then
+            label = clients[1].name or "Unknown"
+            if #label > 20 then
+                label = label:sub(1, 17) .. "..."
+            end
+        else
+            label = #clients .. " windows"
+        end
+        local idx = awful.tag.object.get_index(t)
+        t.name = idx .. ": " .. label
+    end
+
+    -- Setup dynamic naming for existing tags
+    for _, t in ipairs(s.tags) do
+        update_tag_name(t)
+        t:connect_signal("property::clients", function()
+            update_tag_name(t)
+        end)
+    end
+
+    -- Setup dynamic naming for tags added later
+    tag.connect_signal("request::screen", function(t)
+        if t.screen == s then
+            update_tag_name(t)
+            t:connect_signal("property::clients", function()
+                update_tag_name(t)
+            end)
+        end
+    end)
+
+    -- Update when client names change
+    client.connect_signal("property::name", function(c)
+        for _, t in ipairs(c:tags()) do
+            update_tag_name(t)
+        end
+    end)
+
+    -- Sync all tags every second
+    gears.timer {
+        timeout = 1,
+        autostart = true,
+        callback = function()
+            for _, t in ipairs(s.tags) do
+                update_tag_name(t)
+            end
+        end
     }
 
     s.mytasklist = awful.widget.tasklist {
