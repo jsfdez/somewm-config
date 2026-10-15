@@ -162,6 +162,9 @@ local shutdown_module = require("shutdown")
 shutdown = shutdown_module.system  -- Expose globally for Lua prompt
 poweroff = shutdown_module.poweroff  -- Alias for consistency with systemctl
 
+-- Wi-Fi (nmcli, wireless device wlo1)
+local wifi = require("wifi-manager").new("wlo1")
+
 -- Defaults
 -- Change these to your preferred terminal and editor, or use xdg-terminal and xdg-editor if available.
 local terminal = "kitty"
@@ -199,7 +202,7 @@ gears.timer({
 -- Autostart (idempotent across reloads). somewm provides notifications and
 -- wallpapers natively, so don't run mako/swaybg/dunst.
 awful.spawn.once("cosmic-bg")  -- Background service
-awful.spawn.once("nm-applet")        -- network tray
+-- awful.spawn.once("nm-applet")        -- network tray (replaced by wifi-manager)
 -- awful.spawn.once("blueman-applet")   -- bluetooth tray
 -- awful.spawn.once("udiskie --tray")   -- auto-mount removable drives
 gears.timer.delayed_call(function()
@@ -245,6 +248,7 @@ local theme_menu = {
 
 local menu_items = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+   { "wifi", wifi.show },
    { "terminal", function() awful.spawn(terminal) end },
    { "theme", theme_menu },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
@@ -556,6 +560,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     wibox.widget.systray(),
                     audio.widget,
                     brightness.widget,
+                    wifi.widget,
                     battery.widget,
                     s.mylayoutbox,
                     mytextclock,
