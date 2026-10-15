@@ -254,6 +254,7 @@ local menu_items = {
 }
 
 mymainmenu = awful.menu({ items = { { "somewm", menu_items, beautiful.awesome_icon },
+									{ "suspend", function() suspend() end },
                                     { "open terminal", terminal }
                                   }
                         })
