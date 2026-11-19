@@ -1,4 +1,3 @@
--- TEST CONFIG LOADED
 -- somewmrc.lua - Default configuration for somewm (AwesomeWM on Wayland)
 --
 -- Copy this file to ~/.config/somewm/rc.lua and customize it.
