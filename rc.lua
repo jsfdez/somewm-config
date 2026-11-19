@@ -153,6 +153,20 @@ local brightness = require("brightness")
 -- Battery status
 local battery = require("battery")
 
+-- CPU / RAM / GPU usage
+local sysmon = require("sysmon")
+
+-- Add a gap after each usage reading so it doesn't run into the next item;
+-- `left` adds a gap before it too (used for the first reading after battery)
+local function sysmon_spaced(widget, left)
+    return wibox.widget {
+        widget = wibox.container.margin,
+        left   = left or 0,
+        right  = dpi(8),
+        widget,
+    }
+end
+
 -- Suspend
 local suspend_module = require("suspend")
 suspend = suspend_module.system  -- Expose globally for Lua prompt
@@ -562,6 +576,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     brightness.widget,
                     wifi.widget,
                     battery.widget,
+                    sysmon_spaced(sysmon.cpu.widget, dpi(8)),
+                    sysmon_spaced(sysmon.ram.widget),
+                    sysmon_spaced(sysmon.gpu.widget),
                     s.mylayoutbox,
                     mytextclock,
                 },
